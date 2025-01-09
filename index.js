@@ -8,6 +8,7 @@ export class MessageChunkerApp extends LitElement {
 	static styles = css`
 		textarea {
 			width: 100%;
+			resize: vertical;
 		}
 	`;
 
