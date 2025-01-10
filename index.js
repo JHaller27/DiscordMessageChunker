@@ -22,6 +22,18 @@ function load() {
 	return null;
 }
 
+function lastIndexOfRegex(re, str, limit) {
+	let last = -1;
+	let match;
+	while ((match = re.exec(str)) != null) {
+		if (match.index >= limit) {
+			break;
+		}
+		last = match.index;
+	}
+	return last;
+}
+
 const INVIS_SPACE = '‎';
 const INITIAL_VALUE = load();
 
@@ -81,9 +93,29 @@ export class MessageChunkerApp extends LitElement {
 	}
 
 	_computeChunks(raw) {
-		const chunks = raw.split(/\n{2,}/);
-		this._chunks = chunks;
 		save(raw);
+
+		this._chunks = [];
+		if (raw.length < 2000) {
+			this._chunks.push(raw);
+		}
+		else {
+			while (raw.length > 2000) {
+				let splitIdx = lastIndexOfRegex(/\n{2,}/g, raw, 2000);
+				if (splitIdx === -1) {
+					splitIdx = lastIndexOfRegex(/\n/g, raw, 2000);
+				}
+				if (splitIdx === -1) {
+					splitIdx = lastIndexOfRegex(/\. /g, raw, 2000) + 1;
+				}
+				if (splitIdx === -1) {
+					splitIdx = lastIndexOfRegex(/\s+/g, raw, 2000);
+				}
+				this._chunks.push(raw.substring(0, splitIdx).trimEnd());
+				raw = raw.substring(splitIdx).trimStart();
+			}
+			this._chunks.push(raw);
+		}
 
 		this._resetCopyCursor();
 	}
@@ -179,6 +211,9 @@ export class MessageChunk extends LitElement {
 		}
 		div.hidden {
 			display: none;
+		}
+		pre {
+			white-space: pre-wrap;
 		}
 	`;
 
