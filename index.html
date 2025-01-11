@@ -16,8 +16,22 @@
 	</head>
 	<body>
 		<div class="container">
-			<h1>Discord Message Chunker</h1>
-			<message-chunker-app />
+			<div class="row justify-content-center">
+				<div class="col-12 col-sm-10">
+					<h1>Discord Message Chunker</h1>
+				</div>
+				<div class="col d-flex justify-content-start justify-content-sm-end align-items-center">
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="mySwitch" name="darkmode" value="yes" checked>
+						<label class="form-check-label" for="mySwitch">Dark Mode</label>
+					</div>
+				</div>
+			</div>
+			<div class="row mt-5">
+				<div class="col-12">
+					<message-chunker-app />
+				</div>
+			</div>
 		</div>
 	</body>
 </html>

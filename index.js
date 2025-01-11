@@ -48,8 +48,13 @@ export class MessageChunkerApp extends LitElement {
 	};
 
 	static styles = css`
+		:host {
+			--dmc-highlight-bg: var(--bs-secondary-bg);
+			--dmc-highlight-text: var(--bs-secondary-color);
+		}
 		textarea {
 			width: 100%;
+			min-height: 15dvh;
 			resize: vertical;
 		}
 
@@ -58,7 +63,11 @@ export class MessageChunkerApp extends LitElement {
 			display: block;
 		}
 		message-chunk.highlight {
-			background: rgba(255, 255, 255, 0.1);
+			animation-name: copied;
+			animation-duration: 2s;
+
+			background: var(--dmc-highlight-bg);
+			color: var(--dmc-highlight-color);
 		}
 
 		section#chunk-controls {
@@ -82,6 +91,15 @@ export class MessageChunkerApp extends LitElement {
 			section#chunk-controls div *.sm-expand {
 				flex: 1 0 0;
 				width: unset;
+			}
+		}
+
+		@keyframes copied {
+			from {
+				background: var(--bs-indigo);
+			}
+			to {
+				background: var(--dmc-highlight-bg);
 			}
 		}
 	`;
@@ -158,12 +176,12 @@ export class MessageChunkerApp extends LitElement {
 		const children = this._findAllChunkChildren();
 
 		// Collapse children before the copy-cursor
-		// if (this._copyCursor !== undefined) {
-		// 	for (let index = 0; index <= this._copyCursor; index++) {
-		// 		const child = children[index];
-		// 		child._collapsed = true;
-		// 	}
-		// }
+		if (this._copyCursor !== undefined) {
+			for (let index = 0; index <= this._copyCursor; index++) {
+				const child = children[index];
+				child._collapsed = true;
+			}
+		}
 
 		// Exit early if copy-cursor is on last element
 		if (this._copyCursor >= (children.length - 1)) {
@@ -193,7 +211,7 @@ export class MessageChunkerApp extends LitElement {
 			<hr/>
 			<section id="chunk-controls">
 				<div>
-					<button @click=${this._onExpandAllClicked} class="sm-expand">Expand all</button>
+					<button type="button" @click=${this._onExpandAllClicked} class="sm-expand">Expand all</button>
 					<button @click=${this._onCollapseAllClicked} class="sm-expand">Collapse all</button>
 				</div>
 				<div>
