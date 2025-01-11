@@ -4,6 +4,50 @@
 		<title>Discord Message Chunker</title>
 		<meta charset="utf-8">
 
+		<script>
+			const STORE_KEY = 'message-chunker-app';
+
+			function setTheme() {
+				const themeStoreKey = `${STORE_KEY}:theme`;
+				let theme = localStorage.getItem(themeStoreKey);
+
+				if (theme === null) {
+					theme = 'dark';
+					localStorage.setItem(themeStoreKey, theme);
+				}
+
+				document.querySelector('html').setAttribute('data-bs-theme', theme);
+				const themeSwitch = document.querySelector('input#theme-switch');
+
+				switch (theme) {
+					case 'light':
+						themeSwitch.removeAttribute('checked');
+						break;
+					case 'dark':
+						themeSwitch.setAttribute('checked', '');
+						break;
+				}
+			}
+
+			function toggleDarkMode() {
+				const themeStoreKey = `${STORE_KEY}:theme`;
+				let theme = localStorage.getItem(themeStoreKey);
+				switch (theme) {
+					case 'dark':
+						theme = 'light';
+						break;
+					case 'light':
+						theme = 'dark';
+						break;
+					default:
+						theme = 'dark';
+				}
+				localStorage.setItem(themeStoreKey, theme);
+
+				setTheme();
+			}
+		</script>
+
 		<script type="module" src="./index.js"></script>
 
 		<!-- Latest compiled and minified CSS -->
@@ -22,7 +66,7 @@
 				</div>
 				<div class="col d-flex justify-content-start justify-content-sm-end align-items-center">
 					<div class="form-check form-switch">
-						<input class="form-check-input" type="checkbox" id="mySwitch" name="darkmode" value="yes" checked>
+						<input id="theme-switch" class="form-check-input" type="checkbox" id="mySwitch" name="darkmode" value="yes" onclick="toggleDarkMode()">
 						<label class="form-check-label" for="mySwitch">Dark Mode</label>
 					</div>
 				</div>
@@ -33,5 +77,9 @@
 				</div>
 			</div>
 		</div>
+
+		<script>
+			setTheme();
+		</script>
 	</body>
 </html>

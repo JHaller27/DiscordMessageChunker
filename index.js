@@ -1,6 +1,5 @@
 import {LitElement, css, html} from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
 
-const STORE_KEY = 'message-chunker-app';
 function save(text) {
 	if (!text || text === '') {
 		localStorage.removeItem(`${STORE_KEY}:version`);
