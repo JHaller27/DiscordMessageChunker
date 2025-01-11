@@ -83,7 +83,7 @@ export class MessageChunkerApp extends LitElement {
 			width: 100%;
 		}
 		button {
-			padding-block: 0.25rem;
+			padding-block: 0.5rem;
 		}
 
 		@media (min-width: 576px) {
