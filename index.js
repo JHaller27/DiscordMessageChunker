@@ -34,6 +34,10 @@ function lastIndexOfRegex(re, str, limit) {
 	return last;
 }
 
+function convertMarkdown(text) {
+	return text;
+}
+
 const INVIS_SPACE = '‎';
 const INITIAL_VALUE = load();
 
@@ -257,11 +261,13 @@ export class MessageChunk extends LitElement {
 	}
 
 	render() {
+		let value = convertMarkdown(this.value);
+
 		return html`
 			<button @click=${this._onCollapseButtonClicked}>${this._collapsed ? '>' : 'v'}</button>
 			<div class="${this._collapsed && 'hidden'}">
 				<button @click=${() => this._onCopyButtonClicked()}>Copy</button>
-				<pre>${this.value}</pre>
+				<pre>${value}</pre>
 			</div>
 		`;
 	}
