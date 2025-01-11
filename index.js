@@ -63,13 +63,22 @@ export class MessageChunkerApp extends LitElement {
 		section#chunk-controls div {
 			margin-block: 0.5rem;
 			display: flex;
+			flex-wrap: wrap;
 			gap: 0.5rem;
 		}
 		section#chunk-controls div * {
-			flex: 1 0 0;
+			flex: 0 0 auto;
+			width: 100%;
 		}
 		button {
 			padding-block: 0.25rem;
+		}
+
+		@media (min-width: 576px) {
+			section#chunk-controls div *.sm-expand {
+				flex: 1 0 0;
+				width: unset;
+			}
 		}
 	`;
 
@@ -180,8 +189,8 @@ export class MessageChunkerApp extends LitElement {
 			<hr/>
 			<section id="chunk-controls">
 				<div>
-					<button @click=${this._onExpandAllClicked}>Expand all</button>
-					<button @click=${this._onCollapseAllClicked}>Collapse all</button>
+					<button @click=${this._onExpandAllClicked} class="sm-expand">Expand all</button>
+					<button @click=${this._onCollapseAllClicked} class="sm-expand">Collapse all</button>
 				</div>
 				<div>
 					<button @click=${this._onCopyNextClicked}>Copy next</button>
